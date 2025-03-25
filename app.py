@@ -44,9 +44,15 @@ def handle_message(event):
         ret = response['choices'][0]['message']['content'].strip()
     except:
         ret = '發生錯誤！'
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=ret))
+
+    # 回應內容中加入計數器數量
+    reply_text = f"{ret}\n\n已發送至OpenAI的訊息數量: {message_counter}"
+    
+    # 回覆用戶OpenAI的回應，並加入訊息數量
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
     # 可選：每次發送訊息後，打印出目前的計數
     print(f"已發送至OpenAI的訊息數量: {message_counter}")
+    
 if __name__ == '__main__':
     app.run()
